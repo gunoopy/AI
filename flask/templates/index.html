@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class = 'content-section'>
+    <form method = 'POST' action = '/result'>
+        {% for feature_name in feature_names %}
+            <div>
+                {{ feature_name }} : <input type = 'text' name = {{ feature_name }}>
+            </div>
+<!--            sepal_length : <input type = 'text' name = 'sepal_length'>-->
+<!--            sepal_width : <input type = 'text' name = 'sepal_width'>-->
+<!--            petal_length : <input type = 'text' name = 'petal_length'>-->
+<!--            petal_width : <input type = 'text' name = 'petal_width'>-->
+        {% endfor %}
+        <input type = 'submit' value = 'submit'>
+    </form>
+</div>
+
+
+
+{% endblock content %}
