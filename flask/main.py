@@ -1,12 +1,9 @@
 from flask import Flask, render_template, request
 import pickle
-import json
 
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-import plotly
-import plotly.express as px
 import seaborn as sns
 from sklearn.preprocessing import StandardScaler
 from tensorflow.keras import models
@@ -50,12 +47,16 @@ def processing(new_data) :
 
     # result dataframe
     pred_prob = pd.DataFrame(pred_prob, columns=['prob']).rename(index=LABELS)
-    pred_prob = pred_prob.reset_index().sort_values('prob', ascending=True)
+    pred_prob = pred_prob.reset_index().sort_values('prob', ascending=False)
 
-    # plot
-    fig = px.bar(pred_prob, x='prob', y='index', labels={'index': '', 'prob': 'Probability'})
+    # save plot
+    sns.barplot(data=pred_prob, x='prob', y='index')
+    plt.xlabel('Probability')
+    plt.ylabel('')
+    plt.xlim(0, 1)
+    plt.savefig('static/image/result.png', dpi = 300)
 
-    return pred_class, fig
+    return pred_class
 
 
 #
@@ -76,13 +77,11 @@ def result() :
         result = np.array([request.form[feature_name] for feature_name in FEATURE_NAMES])
         # result = np.array([6.1, 2.8, 4.7, 1.2]) # sample
 
-        prediction, fig = processing(result)
+        prediction = processing(result)
 
-        graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
-        return render_template('result.html', graphJSON = graphJSON, prediction = prediction)
+        return render_template('result.html', prediction = prediction)
     else :
         return render_template('index.html')
-
 
 
 if __name__ == '__main__' :

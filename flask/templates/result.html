@@ -1,16 +1,14 @@
-{% extends "base.html" %}
-{% block content %}
-
-<div class = 'content-section'>
-    <h1>Prediction Result : {{prediction}}</h1>
-    <div id='chart' class='chart'></div>
-    <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
-    <script type='text/javascript'>
-        var graphs = {{graphJSON | safe}};
-        Plotly.plot('chart',graphs,{});
-    </script>
-</div>
-
-
-
-{% endblock content %}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Model Test</title>
+</head>
+<body>
+    <a href = '/'><h1>Main</h1></a>
+    <div class = 'content-section'>
+        <h1>Prediction Result : {{prediction}}</h1>
+        <img src="{{ url_for('static', filename='image/result.png') }}" style="width : 600px;">
+    </div>
+</body>
+</html>
